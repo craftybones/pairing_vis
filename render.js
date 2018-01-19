@@ -47,7 +47,7 @@ const render24HourGraph=(data,row)=> {
 }
 
 const render=()=>{
-  d3.json("graphql_test.json",(d)=>{
+  d3.json("data.json",(d)=>{
     foo=d;
     let data=d.data;
     moveCommitsToData(data);
