@@ -18,12 +18,23 @@ const moveCommitsToData=(data)=> {
   });
 }
 
+const getPushTimes=(commits)=> {
+  let pushTimes=commits.reduce((pt,c)=>{
+    if(c.pushedDate)
+      pt[c.pushedDate]=true;
+    return pt;
+  },{});
+  return Object.keys(pushTimes);
+}
+
 const render24HourGraph=(data,row)=> {
   let scale=twentyFourHourRange.range([0,240]);
+
   let svg=row.append("td")
     .append("svg")
     .style("width","240")
     .style("height","14");
+
   let group=svg.selectAll("g")
     .data((d)=>data[d].commits_after)
     .enter()
@@ -43,6 +54,35 @@ const render24HourGraph=(data,row)=> {
         .attr("y1",0)
         .attr("x2",0)
         .attr("y2",14);
+  let pushGroups=svg.selectAll("pushes")
+      .data((d)=>getPushTimes(data[d].commits_after))
+      .enter()
+      .append("g")
+      .attr("transform",(c)=>`translate(${scale(Date.parse(c))},0)`);
+
+  pushGroups.append("line")
+      .attr("class","push")
+      .attr("x1",1)
+      .attr("y1",0)
+      .attr("x2",1)
+      .attr("y2",14);
+}
+
+const renderCommitLogs=(data)=>{
+  let users=Object.keys(data).sort();
+  let userDiv=d3.select(".commit_logs")
+    .selectAll(".user")
+    .data(users)
+    .enter()
+    .append("div")
+    .attr("class","user");
+  userDiv.append("h4").text((d)=>d.replace("__"," / "));
+  userDiv.append("ul")
+    .selectAll("li")
+    .data((d)=>data[d].commits_after.slice(0,5))
+    .enter()
+      .append("li")
+      .text((d)=>d.message.substr(0,80))
 }
 
 const render=()=>{
@@ -61,6 +101,7 @@ const render=()=>{
     row.append("td").text((d)=>d.replace("__"," / "));
     row.append("td").text((d)=>data[d].commits_after.length);
     render24HourGraph(data,row);
+    renderCommitLogs(data);
   });
 }
 

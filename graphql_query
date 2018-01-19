@@ -3,24 +3,18 @@ query {
 }
 
 fragment firstNCommits on Repository {
-    master:defaultBranchRef {
-      head:target {
-        ...on Commit {
-          history(first:30) {
-            commits:nodes {
-              message
-              pushedDate
-              authoredDate
-              author {
-                user {
-                  login
-                  name
-                  email
-                }
-              }
-            }
+  url
+  master:defaultBranchRef {
+    head:target {
+      ...on Commit {
+        history(first:30) {
+          commits:nodes {
+            message
+            pushedDate
+            authoredDate
           }
         }
       }
     }
+  }
 }

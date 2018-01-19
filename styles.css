@@ -10,3 +10,20 @@ svg {
 .midnight {
   stroke: red;
 }
+
+.push {
+  stroke: orange;
+}
+
+.container {
+  width: 960px;
+  margin: 0 auto;
+}
+
+table {
+  width: 100%;
+}
+
+table th {
+  text-align: left;
+}
