@@ -1,0 +1,12 @@
+svg line {
+  stroke: steelblue;
+  stroke-width: 1px;
+}
+
+svg {
+  border: 1px solid lightgray;
+}
+
+.midnight {
+  stroke: red;
+}
