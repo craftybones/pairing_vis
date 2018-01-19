@@ -6,7 +6,7 @@ fragment firstNCommits on Repository {
     master:defaultBranchRef {
       head:target {
         ...on Commit {
-          history(first:5) {
+          history(first:30) {
             commits:nodes {
               message
               pushedDate

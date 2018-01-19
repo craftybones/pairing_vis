@@ -5,7 +5,6 @@ let midnight=d3.timeDay.floor(now);
 let yesterday=d3.timeDay.offset(now,-1);
 let twentyFourHourRange=d3.scaleTime().domain([yesterday,now]);
 
-
 let filterCommits=(commits)=>{
   return commits.filter((c)=>{
     let date=Date.parse(c.authoredDate);
@@ -51,7 +50,9 @@ const render=()=>{
     foo=d;
     let data=d.data;
     moveCommitsToData(data);
-    let users=Object.keys(data);
+    let users=Object.keys(data).sort(function(a,b){
+      return data[a].commits_after.length - data[b].commits_after.length;
+    });
     let row=d3.select(".summary")
       .selectAll("p")
       .data(users)
