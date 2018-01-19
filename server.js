@@ -1,11 +1,16 @@
 const express = require('express');
 const getPairMappings = require('./decryptPairMapping.js').getPairMappings;
-const pairMapFile=process.env.PAIR_MAP||"./users";
+const constructQuery = require('./queryConstructor.js').constructQuery;
+
+const PORT=process.env.PORT || 8080;
+const pairMapFile=process.env.PAIR_MAP || "./users";
 const pairMap=getPairMappings(pairMapFile);
-const fs=require('fs');
+const org=process.env.ORG || "STEP-tw";
+
+const query=constructQuery(pairMap,org,"./graphql_query");
+console.log(query);
 
 const app = express();
 app.use(express.static("public"));
-// app.get('/',)
 
-// app.listen(8080,()=>console.log("listening on 8080"));
+app.listen(PORT,()=>console.log(`listening on ${PORT}`));
