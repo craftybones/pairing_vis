@@ -1,0 +1,26 @@
+query {
+  PLACEHOLDER
+}
+
+fragment firstNCommits on Repository {
+    master:defaultBranchRef {
+      head:target {
+        ...on Commit {
+          history(first:5) {
+            commits:nodes {
+              message
+              pushedDate
+              authoredDate
+              author {
+                user {
+                  login
+                  name
+                  email
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+}
