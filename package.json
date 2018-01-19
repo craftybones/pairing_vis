@@ -1,0 +1,22 @@
+{
+  "name": "vis",
+  "version": "1.0.0",
+  "description": "",
+  "main": "get_latest_data.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/craftybones/pairing_vis.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/craftybones/pairing_vis/issues"
+  },
+  "homepage": "https://github.com/craftybones/pairing_vis#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
