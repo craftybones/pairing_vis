@@ -16,11 +16,4 @@ const getPairMappings=(filename)=>{
   return JSON.parse(decrypted);
 }
 
-function encrypt(text,algorithm,secret){
-  var cipher = crypto.createCipher(algorithm,secret)
-  var crypted = cipher.update(text,'utf8','hex')
-  crypted += cipher.final('hex');
-  return crypted;
-}
-
 exports.getPairMappings=getPairMappings;
