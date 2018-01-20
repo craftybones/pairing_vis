@@ -12,6 +12,8 @@ fragment firstNCommits on Repository {
             message
             pushedDate
             authoredDate
+            additions
+            deletions
           }
         }
       }

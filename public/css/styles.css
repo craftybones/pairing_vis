@@ -43,7 +43,28 @@ table th {
   border-top: 1px solid lightgray;
   margin-top: 10px;
   padding-top: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  vertical-align: middle;
 }
-.user li {
+
+.commit_log li {
   list-style: none;
+}
+
+.additions {
+  vertical-align: middle;
+}
+
+.addition {
+  fill: lightgreen;
+  stroke: white;
+  stroke-width: 1px;
+}
+
+.deletion {
+  fill: firebrick;
+  stroke: white;
+  stroke-width: 1px;
 }

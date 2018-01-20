@@ -87,6 +87,55 @@ const render24HourGraph=(data,row)=> {
       .attr("y2",14);
 }
 
+const addCommitMessages=(userDiv,data)=>{
+  let commitLog=userDiv.append("div")
+    .attr("class","commit_log");
+  commitLog.append("a")
+    .attr("href",(d)=>data[d].url)
+    .attr("name",(d)=>d)
+    .text((d)=>d.replace("__"," / "));
+  commitLog.append("ul")
+    .selectAll("li")
+    .data((d)=>data[d].commits_after.slice(0,5))
+    .enter()
+      .append("li")
+      .text((d)=>d.message.substr(0,80))
+}
+
+const addAdditionsDeletions=(userDiv,data)=>{
+  let xScale=d3.scaleLinear().domain([0,20]).range([0,480]).clamp(true);
+  let yScale=d3.scaleLinear().domain([0,200]).range([0,50]).clamp(true);
+  let svg=userDiv.append("div")
+    .attr("class","additions")
+    .append("svg")
+    .attr("width",480)
+    .attr("height",100);
+  svg.append("g")
+    .attr("class","addition")
+    .selectAll("additions")
+    .data((d)=>data[d].commits_after.slice(0,20))
+    .enter()
+      .append("g")
+      .attr("transform",(d,i)=>{return `translate(${xScale(19-i)},${50-yScale(d.additions)})`})
+      .append("rect")
+        .attr("x",0)
+        .attr("y",0)
+        .attr("width",24)
+        .attr("height",(d)=>{return yScale(d.additions)});
+  svg.append("g")
+    .attr("class","deletion")
+    .selectAll("deletions")
+    .data((d)=>data[d].commits_after)
+    .enter()
+      .append("g")
+      .attr("transform",(d,i)=>{return `translate(${xScale(19-i)},50)`})
+      .append("rect")
+        .attr("x",0)
+        .attr("y",0)
+        .attr("width",24)
+        .attr("height",(d)=>{return yScale(d.deletions)});
+}
+
 const renderCommitLogs=(data)=>{
   let users=Object.keys(data).sort();
   let userDiv=d3.select(".commit_logs")
@@ -95,16 +144,8 @@ const renderCommitLogs=(data)=>{
     .enter()
     .append("div")
     .attr("class","user");
-  userDiv.append("a")
-    .attr("href",(d)=>data[d].url)
-    .attr("name",(d)=>d)
-    .text((d)=>d.replace("__"," / "));
-  userDiv.append("ul")
-    .selectAll("li")
-    .data((d)=>data[d].commits_after.slice(0,5))
-    .enter()
-      .append("li")
-      .text((d)=>d.message.substr(0,80))
+  addCommitMessages(userDiv,data);
+  addAdditionsDeletions(userDiv,data);
 }
 
 const render=()=>{
