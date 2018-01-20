@@ -3,7 +3,7 @@ const fs=require('fs');
 
 const getPairMappings = require('./decryptPairMapping.js').getPairMappings;
 const constructQuery = require('./queryConstructor.js').constructQuery;
-
+const GithubQuery = require('./githubQuery.js');
 
 let queryTemplate=fs.readFileSync("graphql_query","utf8");
 let repositoryTemplate=`PAIR:repository(owner:"ORG",name:"USERNAME") {
@@ -17,27 +17,32 @@ let usersFile=process.argv[3] || "./users";
 let pairMap=getPairMappings(usersFile);
 let query=constructQuery(pairMap,org,"./graphql_query");
 
-let options={
-  host:"api.github.com",
-  method:"POST",
-  path:"/graphql",
-  headers:{"User-Agent":"foo",
-  "Transfer-Encoding":"chunked",
-  "Authorization":`bearer ${token}`}
-};
+let ghQuery=new GithubQuery(token,query,(payload)=>{
+  console.log(payload);
+});
 
-const fetchRepoNames=function(options,query) {
-  let req=https.request(options,function(res){
-    console.log(res.statusCode);
-    let body="";
-    res.on("data",(chunk)=>body+=chunk);
-    res.on("end",()=>{
-      fs.writeFileSync("data.json",body,"utf8");
-    });
-  });
-  let body={query:query};
-  req.write(JSON.stringify(body));
-  req.end();
-};
-
-fetchRepoNames(options,query);
+ghQuery.fetch();
+// let options={
+//   host:"api.github.com",
+//   method:"POST",
+//   path:"/graphql",
+//   headers:{"User-Agent":"foo",
+//   "Transfer-Encoding":"chunked",
+//   "Authorization":`bearer ${token}`}
+// };
+//
+// const fetchRepoNames=function(options,query) {
+//   let req=https.request(options,function(res){
+//     console.log(res.statusCode);
+//     let body="";
+//     res.on("data",(chunk)=>body+=chunk);
+//     res.on("end",()=>{
+//       fs.writeFileSync("data.json",body,"utf8");
+//     });
+//   });
+//   let body={query:query};
+//   req.write(JSON.stringify(body));
+//   req.end();
+// };
+//
+// fetchRepoNames(options,query);
