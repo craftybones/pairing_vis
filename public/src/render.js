@@ -78,6 +78,7 @@ const renderCommitLogs=(data)=>{
     .attr("class","user");
   userDiv.append("a")
     .attr("href",(d)=>data[d].url)
+    .attr("name",(d)=>d)
     .text((d)=>d.replace("__"," / "));
   userDiv.append("ul")
     .selectAll("li")
@@ -100,9 +101,10 @@ const render=()=>{
       .data(users)
       .enter()
         .append("tr");
-    row.append("td").text((d)=>{
-      return d.replace("__"," / ");
-    });
+    row.append("td")
+      .append("a")
+      .attr("href",(d)=>`#${d}`)
+      .text((d)=>d.replace("__"," / "));
     row.append("td").text((d)=>data[d].commits_after.length);
     render24HourGraph(data,row);
     renderCommitLogs(data);
