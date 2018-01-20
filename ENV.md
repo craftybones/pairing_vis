@@ -6,3 +6,4 @@ The following variables need to be set in order for
 * ORG - the org we want to fetch the details from. Defaults to STEP-tw
 * GITHUB_TOKEN - the github token you want to use to authenticate
 * SERVE_DATA_LOCAL - a flag to tell the serve to use data locally, which it will then attempt to serve from public/data
+* SECRET - the secret key used to encrypt the file pointed to by PAIR_MAP
