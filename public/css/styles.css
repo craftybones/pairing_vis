@@ -29,6 +29,10 @@ table td {
   padding-right: 30px;
 }
 
+table tr:hover {
+  background-color: #eeeeee;
+}
+
 table th {
   padding-right: 30px;
   text-align: center;
