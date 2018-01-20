@@ -2,8 +2,8 @@ let foo={};
 let epoch=Date.parse("2018-01-19T04:30:00Z");
 let now=Date.now();
 let midnight=d3.timeDay.floor(now);
-let yesterday=d3.timeDay.offset(now,-1);
-let twentyFourHourRange=d3.scaleTime().domain([yesterday,now]);
+let threeDaysAgo=d3.timeDay.offset(now,-3);
+let seventyTwoHourRange=d3.scaleTime().domain([threeDaysAgo,now]);
 
 let filterCommits=(commits)=>{
   return commits.filter((c)=>{
@@ -28,11 +28,14 @@ const getPushTimes=(commits)=> {
 }
 
 const render24HourGraph=(data,row)=> {
-  let scale=twentyFourHourRange.range([0,240]);
+  let scale=seventyTwoHourRange.range([0,720]);
+  let midnight=d3.timeDay.floor(now);
+  let lastNight=d3.timeDay.floor(d3.timeDay.offset(now,-1));
+  let nightBeforeLast=d3.timeDay.floor(d3.timeDay.offset(now,-2));
 
   let svg=row.append("td")
     .append("svg")
-    .style("width","240")
+    .style("width","720")
     .style("height","14");
 
   let group=svg.selectAll("g")
@@ -48,6 +51,22 @@ const render24HourGraph=(data,row)=> {
       .attr("y2",14);
   svg.append("g")
       .attr("transform",`translate(${scale(midnight)},0)`)
+      .append("line")
+        .attr("class","midnight")
+        .attr("x1",0)
+        .attr("y1",0)
+        .attr("x2",0)
+        .attr("y2",14);
+  svg.append("g")
+      .attr("transform",`translate(${scale(nightBeforeLast)},0)`)
+      .append("line")
+        .attr("class","midnight")
+        .attr("x1",0)
+        .attr("y1",0)
+        .attr("x2",0)
+        .attr("y2",14);
+  svg.append("g")
+      .attr("transform",`translate(${scale(lastNight)},0)`)
       .append("line")
         .attr("class","midnight")
         .attr("x1",0)
