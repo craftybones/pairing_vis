@@ -99,7 +99,7 @@ const addCommitMessages=(userDiv,data)=>{
     .data((d)=>data[d].commits_after.slice(0,5))
     .enter()
       .append("li")
-      .text((d)=>d.message.substr(0,80))
+      .text((d)=>d.message.substr(0,80).split("\n")[0]);
 }
 
 const addAdditionsDeletions=(userDiv,data)=>{
